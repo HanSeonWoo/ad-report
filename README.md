@@ -1,30 +1,36 @@
-# React + TypeScript + Vite
+# 광고 정산 데이터 리포트 프로젝트
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+이 프로젝트는 광고 정산 데이터를 받아와 해당 데이터를 통해 제공할 수 있는 다양한 형태의 리포트를 보여주는 React 프로젝트입니다.
 
-Currently, two official plugins are available:
+## 데모
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+[데모 링크 추가 예정]
 
-## Expanding the ESLint configuration
+## 기술 스택
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **프레임워크**: React.js
+- **빌드 도구**: Vite
+- **스타일링**:
+  - Tailwind CSS
+  - shadcn (UI 컴포넌트 라이브러리)
 
-- Configure the top-level `parserOptions` property like this:
+## 실행 방법
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json', './tsconfig.app.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+프로젝트를 실행하려면 다음 명령어를 사용하세요:
+
+```bash
+yarn && yarn dev
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## 주요 고민 사항
+
+- 대용량 처리에 대한 고민
+- [추가 고민 사항 기재 예정]
+
+## 레포트 구성
+
+[구현 후 추가 예정]
+
+## 상황별 그래프
+
+[구현 후 추가 예정]
