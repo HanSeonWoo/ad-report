@@ -1,7 +1,4 @@
-"use client";
-
 import { Ellipsis, LogOut } from "lucide-react";
-// import { usePathname } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -13,15 +10,15 @@ import {
 } from "@/components/ui/tooltip";
 import { getMenuList } from "@/lib/menuList";
 import { cn } from "@/lib/utils";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 interface MenuProps {
   isOpen: boolean | undefined;
 }
 
 export function Menu({ isOpen }: MenuProps) {
-  //   const pathname = usePathname();
-  const menuList = getMenuList("Dashboard");
+  const location = useLocation();
+  const menuList = getMenuList(location.pathname);
 
   return (
     <ScrollArea className="[&>div>div[style]]:!block">

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-interface AdSettlementResponse {
+export interface AdSettlementResponse {
   Payment: {
     Revenue: number;
     Commission: number;

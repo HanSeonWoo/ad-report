@@ -37,7 +37,7 @@ export function getMenuList(pathname: string): Group[] {
       groupLabel: "Detail",
       menus: [
         {
-          href: "yearly",
+          href: "/yearly",
           label: "연도별",
           active: pathname.includes("/yearly"),
           icon: SquarePen,

@@ -10,7 +10,6 @@ import { Link } from "react-router-dom";
 
 export function Sidebar() {
   const sidebar = useStore(useSidebarToggle, (state) => state);
-  console.log("🚀 ~ Sidebar ~ sidebar:", sidebar);
 
   if (!sidebar) return null;
 
