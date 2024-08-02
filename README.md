@@ -8,11 +8,25 @@
 
 ## 기술 스택
 
-- **프레임워크**: React.js
+- **UI 라이브러리**: React.js
 - **빌드 도구**: Vite
+- **상태 관리 및 서버 상태 동기화**: TanStack Query (구 React Query)
+- **HTTP 클라이언트**: axios
 - **스타일링**:
-  - Tailwind CSS
+  - Tailwind CSS (유틸리티 기반 CSS 프레임워크)
   - shadcn (UI 컴포넌트 라이브러리)
+
+## 프로젝트 구조
+
+```
+src/
+├── components/   # 재사용 가능한 UI 컴포넌트
+├── services/     # API 통신 및 데이터 처리 로직
+├── hooks/        # 커스텀 React 훅
+├── pages/        # 페이지 컴포넌트
+├── styles/       # 전역 스타일 및 Tailwind 설정
+└── utils/        # 유틸리티 함수
+```
 
 ## 실행 방법
 
