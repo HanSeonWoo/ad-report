@@ -1,14 +1,5 @@
-import { useState, useEffect, useMemo } from "react";
-import { useQueries } from "@tanstack/react-query";
-import { AdSettlementQueryKey } from "@/pages/YearlyPage";
-import { fetchAdSettlementData } from "@/services/settlement";
-
-const START_YEAR = 2018;
-const END_YEAR = 2021;
-export const YEARS = Array.from(
-  { length: END_YEAR - START_YEAR + 1 },
-  (_, i) => START_YEAR + i
-);
+import { useMemo } from "react";
+import { START_YEAR, useGetAllData, YEARS } from "../../../hooks/useGetAllData";
 
 const MONTHS = [
   "Jan",
@@ -30,36 +21,13 @@ export interface MonthData {
   [year: string]: number | string;
 }
 
-const useMonthData = () => {
-  const [progress, setProgress] = useState(0);
-
-  const results = useQueries({
-    queries: YEARS.map((year) => ({
-      queryKey: ["adSettlement", { search_year: year }] as const,
-      queryFn: ({ queryKey }: { queryKey: AdSettlementQueryKey }) =>
-        fetchAdSettlementData({ search_year: queryKey[1].search_year }),
-      staleTime: Infinity,
-    })),
-  });
-
-  const isLoading = results.some((result) => result.isLoading);
-  const isError = results.some((result) => result.isError);
-
-  useEffect(() => {
-    if (isLoading) {
-      const timer = setInterval(() => {
-        setProgress((oldProgress) => Math.min(oldProgress + 5, 95));
-      }, 500);
-      return () => clearInterval(timer);
-    } else {
-      setProgress(100);
-    }
-  }, [isLoading]);
+export const useMonthData = () => {
+  const { allData, isError, isLoading, progress } = useGetAllData();
 
   const monthData: MonthData[] = useMemo(() => {
     if (isLoading || isError) return [];
 
-    const yearlyData = results.map((result) => result.data?.Payment);
+    const yearlyData = allData.map((result) => result?.Payment);
     if (!yearlyData.every(Boolean)) return [];
 
     const monthData: MonthData[] = MONTHS.map((month) => ({ month }));
@@ -83,9 +51,7 @@ const useMonthData = () => {
     });
 
     return monthData;
-  }, [results, isLoading, isError]);
+  }, [allData, isLoading, isError]);
 
   return { progress, isLoading, isError, monthData };
 };
-
-export default useMonthData;

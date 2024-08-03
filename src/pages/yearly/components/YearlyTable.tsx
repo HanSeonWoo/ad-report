@@ -13,7 +13,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { YearData, YearDataKeys } from "@/pages/YearlyPage";
 import { CaretSortIcon, ChevronDownIcon } from "@radix-ui/react-icons";
 import {
   ColumnDef,
@@ -25,6 +24,7 @@ import {
   VisibilityState,
 } from "@tanstack/react-table";
 import { useState } from "react";
+import { YearData, YearDataKeys } from "../hooks/useYearlyData";
 
 export function YearlyTable({ data }: { data: YearData[] }) {
   const [sorting, setSorting] = useState<SortingState>([]);

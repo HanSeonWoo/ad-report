@@ -7,7 +7,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ChevronDownIcon } from "lucide-react";
-import { MonthData, YEARS } from "../hooks/useMonthData";
 import { useSortedSelectedYears } from "../hooks/useSortedSelectedYear";
 
 import {
@@ -19,6 +18,8 @@ import {
 } from "@/components/ui/chart";
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts";
 import { useDynamicChartConfig } from "../hooks/useDynamicChartConfig";
+import { MonthData } from "../hooks/useMonthData";
+import { YEARS } from "@/hooks/useGetAllData";
 
 export default function MonthlyChart({ data }: { data: MonthData[] }) {
   const { sortedSelectedYears, toggleYear } = useSortedSelectedYears();

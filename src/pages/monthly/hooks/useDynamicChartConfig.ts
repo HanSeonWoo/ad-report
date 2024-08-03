@@ -1,10 +1,6 @@
 import { ChartConfig } from "@/components/ui/chart";
 import { useMemo } from "react";
-
-type MonthData = {
-  month: string;
-  [year: string]: number | string;
-};
+import { MonthData } from "./useMonthData";
 
 const COLORS = [
   "#2563eb",

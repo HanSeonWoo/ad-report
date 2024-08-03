@@ -13,17 +13,17 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { YearData } from "@/pages/YearlyPage";
 import { ChevronDownIcon } from "lucide-react";
 import { useState } from "react";
-import { getLabel } from "../tables/YearlyTable";
-import { Button } from "../ui/button";
+import { Button } from "../../../components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
+} from "../../../components/ui/dropdown-menu";
+import { YearData } from "../hooks/useYearlyData";
+import { getLabel } from "./YearlyTable";
 
 const chartConfig = {
   Revenue: {
