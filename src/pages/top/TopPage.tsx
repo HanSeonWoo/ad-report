@@ -20,13 +20,13 @@ export default function TopPage() {
       ) : (
         <>
           <TopCampaignsChart
+            data={monthlyTopData[month - 1]}
             year={year}
-            data={monthlyTopData}
             month={month}
             setMonth={setMonth}
             setYear={setYear}
           />
-          <TopCampaignsTable data={monthlyTopData} month={month} />
+          <TopCampaignsTable data={monthlyTopData[month - 1]} />
         </>
       )}
     </ContentLayout>

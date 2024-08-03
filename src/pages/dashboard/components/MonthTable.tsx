@@ -31,7 +31,6 @@ export default function MonthTable({ data }: Props) {
   const tableData = useMemo(() => {
     return data.flatMap((month) => month.App.flatMap((app) => app.Campaign));
   }, [data]);
-  console.log("🚀 ~ tableData ~ tableData:", tableData);
 
   const [sorting, setSorting] = useState<SortingState>([]);
 

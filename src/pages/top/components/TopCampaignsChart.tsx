@@ -4,6 +4,7 @@ import { Cell, Pie, PieChart } from "recharts";
 import {
   Card,
   CardContent,
+  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -24,34 +25,32 @@ export default function TopCampaignsChart({
   setMonth,
   setYear,
 }: {
-  data: MonthlyTopDataType[];
+  data: MonthlyTopDataType;
   year: number;
   month: number;
   setMonth: React.Dispatch<React.SetStateAction<number>>;
   setYear: React.Dispatch<React.SetStateAction<number>>;
 }) {
-  const currentMonthData = data.find((item) => item.month === month);
+  if (!data) return <div>No data available for selected month</div>;
 
-  if (!currentMonthData) return <div>No data available for selected month</div>;
+  const isNegativeRevenue = data.totalRevenue < 0;
 
-  const isNegativeRevenue = currentMonthData.totalRevenue < 0;
-
-  const chartConfig: ChartConfig = currentMonthData.topData.reduce(
-    (acc, item, index) => {
-      acc[item.name] = {
-        label: item.name,
-        color: `hsl(var(--chart-${index + 1}))`,
-      };
-      return acc;
-    },
-    {} as ChartConfig
-  );
+  const chartConfig: ChartConfig = data.topData.reduce((acc, item, index) => {
+    acc[item.name] = {
+      label: item.name,
+      color: `hsl(var(--chart-${index + 1}))`,
+    };
+    return acc;
+  }, {} as ChartConfig);
 
   return (
     <Card className="flex flex-col">
       <div className="flex flex-row justify-between px-4">
-        <CardHeader className="items-center pb-0">
-          <CardTitle>Top Campaigns</CardTitle>
+        <CardHeader>
+          <CardTitle>상위 캠페인 차트</CardTitle>
+          <CardDescription>
+            {year}년 {month}월
+          </CardDescription>
         </CardHeader>
         <div className="p-4">
           <PeriodeSelector
@@ -84,14 +83,14 @@ export default function TopCampaignsChart({
             <PieChart>
               <ChartTooltip content={<ChartTooltipContent />} />
               <Pie
-                data={currentMonthData.topData}
+                data={data.topData}
                 dataKey="revenue"
                 nameKey="name"
                 label={({ name, percent }) =>
                   `${name} ${(percent * 100).toFixed(0)}%`
                 }
               >
-                {currentMonthData.topData.map((_, index) => (
+                {data.topData.map((_, index) => (
                   <Cell
                     key={`cell-${index}`}
                     fill={`hsl(var(--chart-${index + 1}))`}
@@ -104,15 +103,8 @@ export default function TopCampaignsChart({
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
         <div className="flex items-center gap-2 font-medium leading-none">
-          Total Revenue: {currentMonthData.totalRevenue.toLocaleString()}{" "}
+          Total Revenue: {data.totalRevenue.toLocaleString()}{" "}
           <TrendingUp className="h-4 w-4" />
-        </div>
-        <div className="leading-none text-muted-foreground">
-          Showing top campaigns for{" "}
-          {new Date(year, month - 1).toLocaleString("default", {
-            month: "long",
-            year: "numeric",
-          })}
         </div>
       </CardFooter>
     </Card>

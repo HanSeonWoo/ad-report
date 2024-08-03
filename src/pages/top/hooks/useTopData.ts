@@ -25,7 +25,7 @@ export const useTopData = ({ search_year }: Params) => {
   const monthlyTopData: MonthlyTopDataType[] = useMemo(() => {
     if (!data || !data.Payment || !data.Payment.Monthly) return [];
 
-    return data.Payment.Monthly.map((month) => {
+    return data.Payment.Monthly.map((month, index) => {
       const allCampaigns = month.App.flatMap((app) => app.Campaign);
 
       const campaignTotals = allCampaigns.reduce((acc, campaign) => {
@@ -80,12 +80,8 @@ export const useTopData = ({ search_year }: Params) => {
         ];
       }
 
-      // Datetime 형식 변환
-      const dateString = month.Datetime.replace("/Date(", "").replace(")/", "");
-      const date = new Date(parseInt(dateString));
-
       return {
-        month: date.getMonth() + 1, // 1-based month
+        month: index + 1,
         topData: topData,
         allData: allDataWithPercentage,
         totalRevenue,

@@ -18,22 +18,20 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { CampaignData, MonthlyTopDataType } from "../hooks/useTopData";
 import { KWRformatter } from "@/lib/formatter";
+import { CampaignData, MonthlyTopDataType } from "../hooks/useTopData";
 
 type TopTableProps = {
-  data: MonthlyTopDataType[];
-  month: number;
+  data: MonthlyTopDataType;
 };
 
-export default function TopCampaignsTable({ data, month }: TopTableProps) {
-  const currentMonthData = data.find((item) => item.month === month);
-  const tableData = currentMonthData ? currentMonthData.allData : [];
+export default function TopCampaignsTable({ data }: TopTableProps) {
+  if (!data) return null;
 
   const [sorting, setSorting] = useState<SortingState>([]);
 
   const table = useReactTable({
-    data: tableData,
+    data: data.allData,
     columns,
     getCoreRowModel: getCoreRowModel(),
     onSortingChange: setSorting,
@@ -46,7 +44,7 @@ export default function TopCampaignsTable({ data, month }: TopTableProps) {
   return (
     <div className="w-full">
       <div className="flex justify-between items-center py-4">
-        <h2 className="text-2xl font-bold">Campaign Data</h2>
+        <h2 className="text-2xl font-bold">상위 캠페인 테이블</h2>
       </div>
       <div className="rounded-md border">
         <Table>
@@ -96,10 +94,10 @@ export default function TopCampaignsTable({ data, month }: TopTableProps) {
           </TableBody>
         </Table>
       </div>
-      {currentMonthData && (
+      {data.allData && (
         <div className="mt-4 text-right">
           <p className="font-semibold">
-            Total Revenue: {KWRformatter.format(currentMonthData.totalRevenue)}
+            Total Revenue: {KWRformatter.format(data.totalRevenue)}
           </p>
         </div>
       )}
@@ -110,7 +108,7 @@ export default function TopCampaignsTable({ data, month }: TopTableProps) {
 const columns: ColumnDef<CampaignData>[] = [
   {
     accessorKey: "name",
-    header: "Campaign Name",
+    header: "캠페인 이름",
   },
   {
     accessorKey: "revenue",
@@ -120,7 +118,7 @@ const columns: ColumnDef<CampaignData>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Revenue
+          수익
           <CaretSortIcon className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -136,7 +134,7 @@ const columns: ColumnDef<CampaignData>[] = [
   },
   {
     accessorKey: "percentage",
-    header: "Percentage",
+    header: "비중",
     cell: ({ getValue }) => {
       const value = Number(getValue());
       return <div className="text-right">{value.toFixed(2)}%</div>;

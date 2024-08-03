@@ -143,7 +143,6 @@ const columns: ColumnDef<YearData>[] = [
       );
     },
     cell: ({ getValue }) => {
-      console.log(getValue());
       const formatted = new Intl.NumberFormat("ko-KR", {
         style: "currency",
         currency: "KRW",

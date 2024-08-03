@@ -1,14 +1,14 @@
+import { RESULT_TYPES } from "@/lib/const";
 import { getLabel } from "@/lib/getLabel";
+import { ResultType } from "@/lib/type";
 import { ChevronDownIcon } from "lucide-react";
+import { Button } from "./ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { Button } from "./ui/button";
-import { RESULT_TYPES } from "@/lib/const";
-import { ResultType } from "@/lib/type";
 
 type Props = {
   resultType: ResultType;
@@ -29,8 +29,7 @@ export default function ResultTypeSelector({ onSelect, resultType }: Props) {
             <DropdownMenuItem
               key={type}
               className="capitalize"
-              onSelect={(e) => {
-                console.log("onSelect", e);
+              onSelect={() => {
                 onSelect(type);
               }}
             >
