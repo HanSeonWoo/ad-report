@@ -15,6 +15,7 @@ export default function YearlyPage() {
       ) : (
         <>
           <YearlyChart data={yearData} />
+          <div className="size-4" />
           <YearlyTable data={yearData} />
         </>
       )}

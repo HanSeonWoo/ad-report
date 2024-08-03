@@ -1,57 +1,73 @@
+import { useGetAllData } from "@/hooks/useGetAllData";
+import { RESULT_TYPES, START_YEAR, YEARS } from "@/lib/const";
+import { ResultType } from "@/lib/type";
 import { useMemo } from "react";
-import { START_YEAR, useGetAllData, YEARS } from "../../../hooks/useGetAllData";
 
-const MONTHS = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec",
-];
+// 단일 월에 대한 여러 연도의 데이터를 표현하는 타입
+export type MonthYearDataType = {
+  [year: string]: number;
+};
 
-export interface MonthData {
-  month: string;
-  [year: string]: number | string;
-}
+// 단일 지표(예: Revenue)에 대한 모든 월의 데이터를 표현하는 타입
+export type MetricDataType = {
+  [month: number]: MonthYearDataType;
+};
+
+// 모든 지표에 대한 데이터를 표현하는 최종 타입
+export type AllMetricsDataType = {
+  [K in ResultType]: MetricDataType;
+};
 
 export const useMonthData = () => {
   const { allData, isError, isLoading, progress } = useGetAllData();
 
-  const monthData: MonthData[] = useMemo(() => {
-    if (isLoading || isError) return [];
+  const metricsData: AllMetricsDataType = useMemo(() => {
+    if (isLoading || isError) {
+      return RESULT_TYPES.reduce((acc, type) => {
+        acc[type] = {};
+        return acc;
+      }, {} as AllMetricsDataType);
+    }
 
     const yearlyData = allData.map((result) => result?.Payment);
-    if (!yearlyData.every(Boolean)) return [];
+    if (!yearlyData.every(Boolean)) {
+      return RESULT_TYPES.reduce((acc, type) => {
+        acc[type] = {};
+        return acc;
+      }, {} as AllMetricsDataType);
+    }
 
-    const monthData: MonthData[] = MONTHS.map((month) => ({ month }));
+    const initialMetricsData: AllMetricsDataType = RESULT_TYPES.reduce(
+      (acc, type) => {
+        acc[type] = Array.from({ length: 12 }, (_, month) => ({
+          [month]: YEARS.reduce((yearAcc, year) => {
+            yearAcc[year.toString()] = 0;
+            return yearAcc;
+          }, {} as MonthYearDataType),
+        })).reduce((monthAcc, monthData, monthIndex) => {
+          monthAcc[monthIndex] = monthData[monthIndex];
+          return monthAcc;
+        }, {} as MetricDataType);
+        return acc;
+      },
+      {} as AllMetricsDataType
+    );
 
-    yearlyData.forEach((yearData, index) => {
-      const year = (START_YEAR + index).toString();
-      yearData?.Monthly.forEach((monthlyPayment: any) => {
-        const date = new Date(parseInt(monthlyPayment.Datetime.slice(6, -2)));
-        const monthIndex = date.getMonth();
-        monthData[monthIndex][year] = monthlyPayment.Revenue;
-      });
-    });
-
-    // Fill in missing data with 0
-    monthData.forEach((monthDatum) => {
-      YEARS.forEach((year) => {
-        if (!(year.toString() in monthDatum)) {
-          monthDatum[year.toString()] = 0;
+    yearlyData.forEach((yearData, yearIndex) => {
+      const year = (START_YEAR + yearIndex).toString();
+      yearData?.Monthly.forEach(
+        ({ Revenue, Commission, Complete }, monthIndex) => {
+          initialMetricsData.Revenue[monthIndex][year] = Revenue;
+          initialMetricsData.Commission[monthIndex][year] = Commission;
+          initialMetricsData.Complete[monthIndex][year] = Complete;
+          initialMetricsData.RevenuePerComplete[monthIndex][year] =
+            Revenue > 0 && Complete > 0 ? Revenue / Complete : 0;
         }
-      });
+      );
     });
 
-    return monthData;
+    return initialMetricsData;
   }, [allData, isLoading, isError]);
 
-  return { progress, isLoading, isError, monthData };
+  return { progress, isLoading, isError, metricsData };
 };

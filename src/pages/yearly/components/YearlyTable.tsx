@@ -1,11 +1,5 @@
 import { Button } from "@/components/ui/button";
 import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
   Table,
   TableBody,
   TableCell,
@@ -13,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { CaretSortIcon, ChevronDownIcon } from "@radix-ui/react-icons";
+import { CaretSortIcon } from "@radix-ui/react-icons";
 import {
   ColumnDef,
   flexRender,
@@ -24,7 +18,7 @@ import {
   VisibilityState,
 } from "@tanstack/react-table";
 import { useState } from "react";
-import { YearData, YearDataKeys } from "../hooks/useYearlyData";
+import { YearData } from "../hooks/useYearlyData";
 
 export function YearlyTable({ data }: { data: YearData[] }) {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -45,34 +39,6 @@ export function YearlyTable({ data }: { data: YearData[] }) {
 
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {getLabel(column.id as YearDataKeys)}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -127,21 +93,6 @@ export function YearlyTable({ data }: { data: YearData[] }) {
   );
 }
 
-export const getLabel = (key: YearDataKeys): string => {
-  switch (key) {
-    case "year":
-      return "연도";
-    case "Revenue":
-      return "수익";
-    case "Commission":
-      return "수수료";
-    case "Complete":
-      return "캠페인 완료 수";
-    case "NetRevenue":
-      return "순수익";
-  }
-};
-
 const columns: ColumnDef<YearData>[] = [
   {
     accessorKey: "year",
@@ -151,7 +102,7 @@ const columns: ColumnDef<YearData>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          {getLabel(column.id as YearDataKeys)}
+          연도
           <CaretSortIcon className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -165,17 +116,16 @@ const columns: ColumnDef<YearData>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          {getLabel(column.id as YearDataKeys)}
+          수익
           <CaretSortIcon className="ml-2 h-4 w-4" />
         </Button>
       );
     },
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("Revenue"));
+    cell: ({ getValue }) => {
       const formatted = new Intl.NumberFormat("ko-KR", {
         style: "currency",
         currency: "KRW",
-      }).format(amount);
+      }).format(Number(getValue()));
       return <div className="text-right font-medium">{formatted}</div>;
     },
   },
@@ -187,17 +137,17 @@ const columns: ColumnDef<YearData>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          {getLabel(column.id as YearDataKeys)}
+          수수료
           <CaretSortIcon className="ml-2 h-4 w-4" />
         </Button>
       );
     },
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("Commission"));
+    cell: ({ getValue }) => {
+      console.log(getValue());
       const formatted = new Intl.NumberFormat("ko-KR", {
         style: "currency",
         currency: "KRW",
-      }).format(amount);
+      }).format(Number(getValue()));
       return <div className="text-right font-medium">{formatted}</div>;
     },
   },
@@ -209,36 +159,36 @@ const columns: ColumnDef<YearData>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          {getLabel(column.id as YearDataKeys)}
+          캠페인 완료 수
           <CaretSortIcon className="ml-2 h-4 w-4" />
         </Button>
       );
     },
-    cell: ({ row }) => {
-      const value = row.getValue("Complete") as number;
-      const formatted = new Intl.NumberFormat("ko-KR").format(value);
+    cell: ({ getValue }) => {
+      const formatted = new Intl.NumberFormat("ko-KR").format(
+        Number(getValue())
+      );
       return <div className="text-right">{formatted}</div>;
     },
   },
   {
-    accessorKey: "NetRevenue",
+    accessorKey: "RevenuePerComplete",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          {getLabel(column.id as YearDataKeys)}
+          캠페인 당 수익
           <CaretSortIcon className="ml-2 h-4 w-4" />
         </Button>
       );
     },
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("NetRevenue"));
+    cell: ({ getValue }) => {
       const formatted = new Intl.NumberFormat("ko-KR", {
         style: "currency",
         currency: "KRW",
-      }).format(amount);
+      }).format(Number(getValue()));
       return <div className="text-right font-medium">{formatted}</div>;
     },
   },

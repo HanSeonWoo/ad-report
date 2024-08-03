@@ -1,13 +1,7 @@
+import { YEARS } from "@/lib/const";
 import { fetchAdSettlementData } from "@/services/settlement";
 import { useQueries } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
-
-export const START_YEAR = 2018;
-const END_YEAR = 2021;
-export const YEARS = Array.from(
-  { length: END_YEAR - START_YEAR + 1 },
-  (_, i) => START_YEAR + i
-);
 
 type AdSettlementQueryKey = readonly ["adSettlement", { search_year: number }];
 

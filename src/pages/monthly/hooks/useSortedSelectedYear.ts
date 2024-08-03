@@ -1,4 +1,4 @@
-import { YEARS } from "@/hooks/useGetAllData";
+import { YEARS } from "@/lib/const";
 import { useState, useMemo } from "react";
 
 export const useSortedSelectedYears = () => {

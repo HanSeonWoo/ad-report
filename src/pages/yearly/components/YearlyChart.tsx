@@ -1,5 +1,6 @@
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 
+import ResultTypeSelector from "@/components/ResultTypeSelector";
 import {
   Card,
   CardContent,
@@ -13,38 +14,22 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { ChevronDownIcon } from "lucide-react";
+import { getLabel } from "@/lib/getLabel";
+import { ResultType } from "@/lib/type";
 import { useState } from "react";
-import { Button } from "../../../components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "../../../components/ui/dropdown-menu";
 import { YearData } from "../hooks/useYearlyData";
-import { getLabel } from "./YearlyTable";
+import { RESULT_TYPES } from "@/lib/const";
 
-const chartConfig = {
-  Revenue: {
-    label: "Revenue",
-    color: "hsl(var(--chart-1))",
-  },
-  Commission: {
-    label: "Commission",
-    color: "hsl(var(--chart-2))",
-  },
-  Complete: {
-    label: "Complete",
-    color: "hsl(var(--chart-3))",
-  },
-} satisfies ChartConfig;
-
-type ChartType = keyof typeof chartConfig;
-const CHART_KEYS = Object.keys(chartConfig) as ChartType[];
+const chartConfig = RESULT_TYPES.reduce((config, type, index) => {
+  config[type] = {
+    label: type,
+    color: `hsl(var(--chart-${index + 1}))`,
+  };
+  return config;
+}, {} as ChartConfig);
 
 export default function YearlyChart({ data }: { data: YearData[] }) {
-  const [chartKey, setChartKey] = useState<ChartType>("Revenue");
+  const [resultType, setResultType] = useState<ResultType>("Revenue");
   if (!data) {
     return null;
   }
@@ -53,33 +38,16 @@ export default function YearlyChart({ data }: { data: YearData[] }) {
     <Card>
       <div className="px-4 flex flex-row justify-between items-center">
         <CardHeader>
-          <CardTitle>연도별 {getLabel(chartKey)}</CardTitle>
+          <CardTitle>연도별 {getLabel(resultType)}</CardTitle>
           <CardDescription>
-            {data[0].year} - {data.at(-1)?.year}
+            {data[0].year} - {data[data.length - 1].year}
           </CardDescription>
         </CardHeader>
         <div className="p-4">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="ml-auto">
-                {getLabel(chartKey)}{" "}
-                <ChevronDownIcon className="ml-2 h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              {CHART_KEYS.map((ck) => {
-                return (
-                  <DropdownMenuItem
-                    key={ck}
-                    className="capitalize"
-                    onSelect={() => setChartKey(ck)}
-                  >
-                    {getLabel(ck)}
-                  </DropdownMenuItem>
-                );
-              })}
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <ResultTypeSelector
+            onSelect={setResultType}
+            resultType={resultType}
+          />
         </div>
       </div>
 
@@ -108,10 +76,11 @@ export default function YearlyChart({ data }: { data: YearData[] }) {
             />
 
             <Bar
-              dataKey={chartKey}
-              fill={`var(--color-${chartKey})`}
+              dataKey={resultType}
+              fill={`var(--color-${resultType})`}
               radius={4}
-            ></Bar>
+              barSize={40}
+            />
           </BarChart>
         </ChartContainer>
       </CardContent>

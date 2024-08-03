@@ -38,14 +38,14 @@ export function getMenuList(pathname: string): Group[] {
       menus: [
         {
           href: "/yearly",
-          label: "연도별",
+          label: "연도별 성과 분석",
           active: pathname.includes("/yearly"),
           icon: SquarePen,
           submenus: [],
         },
         {
           href: "/monthly",
-          label: "월별",
+          label: "월별 성과 분석",
           active: pathname.includes("/monthly"),
           icon: Bookmark,
           submenus: [],
@@ -54,20 +54,6 @@ export function getMenuList(pathname: string): Group[] {
           href: "/top",
           label: "상위 캠페인 성과 분석",
           active: pathname.includes("/top"),
-          icon: Tag,
-          submenus: [],
-        },
-        {
-          href: "/app",
-          label: "앱별 광고 수익",
-          active: pathname.includes("/app"),
-          icon: Tag,
-          submenus: [],
-        },
-        {
-          href: "/install-vs-revenue",
-          label: "설치 대비 수익",
-          active: pathname.includes("/install-vs-revenue"),
           icon: Tag,
           submenus: [],
         },

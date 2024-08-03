@@ -9,6 +9,7 @@ import {
 import { ChevronDownIcon } from "lucide-react";
 import { useSortedSelectedYears } from "../hooks/useSortedSelectedYear";
 
+import ResultTypeSelector from "@/components/ResultTypeSelector";
 import {
   ChartContainer,
   ChartLegend,
@@ -16,21 +17,32 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts";
+import { YEARS } from "@/lib/const";
+import { getLabel } from "@/lib/getLabel";
+import { ResultType } from "@/lib/type";
+import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 import { useDynamicChartConfig } from "../hooks/useDynamicChartConfig";
-import { MonthData } from "../hooks/useMonthData";
-import { YEARS } from "@/hooks/useGetAllData";
+import { MonthYearDataType } from "../hooks/useMonthData";
 
-export default function MonthlyChart({ data }: { data: MonthData[] }) {
+type Props = {
+  data: MonthYearDataType[];
+  resultType: ResultType;
+  onSelect: (type: ResultType) => void;
+};
+
+export default function MonthlyChart({ data, onSelect, resultType }: Props) {
   const { sortedSelectedYears, toggleYear } = useSortedSelectedYears();
   const chartConfig = useDynamicChartConfig(data);
+
   return (
     <Card>
       <div className="px-4 flex flex-row justify-between items-center">
         <CardHeader>
-          <CardTitle>월별 광고 수익 비교</CardTitle>
+          <CardTitle>월별 {getLabel(resultType)}</CardTitle>
         </CardHeader>
-        <div className="p-4">
+        <div className="p-4 space-x-4">
+          <ResultTypeSelector resultType={resultType} onSelect={onSelect} />
+
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="ml-auto">
@@ -60,27 +72,22 @@ export default function MonthlyChart({ data }: { data: MonthData[] }) {
             <ChartLegend verticalAlign="top" content={<ChartLegendContent />} />
             <CartesianGrid vertical={false} />
             <XAxis
-              dataKey="month"
               tickLine={false}
               tickMargin={10}
               axisLine={false}
-              tickFormatter={(value) => value.slice(0, 3)}
+              tickFormatter={(_, index) => index + 1 + "월"}
             />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent indicator="dashed" />}
             />
-            {sortedSelectedYears.map((year, index) => (
+            {sortedSelectedYears.map((year) => (
               <Bar
                 key={year}
                 dataKey={year}
                 fill={`var(--color-${year})`}
                 radius={4}
-              >
-                <LabelList position="top" offset={12} fontSize={9}>
-                  {year.toString().slice(2, 4)}
-                </LabelList>
-              </Bar>
+              />
             ))}
           </BarChart>
         </ChartContainer>

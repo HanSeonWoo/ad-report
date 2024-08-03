@@ -1,4 +1,5 @@
-import { START_YEAR, useGetAllData } from "@/hooks/useGetAllData";
+import { useGetAllData } from "@/hooks/useGetAllData";
+import { START_YEAR } from "@/lib/const";
 import { useMemo } from "react";
 
 export interface YearData {
@@ -6,7 +7,7 @@ export interface YearData {
   Revenue: number;
   Commission: number;
   Complete: number;
-  NetRevenue: number;
+  RevenuePerComplete: number;
 }
 export type YearDataKeys = keyof YearData;
 
@@ -23,15 +24,15 @@ export const useYearlyData = () => {
           console.error(`No data for year ${year}`);
           return null;
         }
-        const revenue = result.Payment.Revenue;
-        const commission = result.Payment.Commission;
+        const { Commission, Complete, Revenue } = result.Payment;
 
         return {
           year,
-          Revenue: revenue,
-          Commission: commission,
-          Complete: result.Payment.Complete,
-          NetRevenue: revenue - commission,
+          Revenue,
+          Commission,
+          Complete,
+          RevenuePerComplete:
+            Revenue > 0 && Complete > 0 ? Revenue / Complete : 0,
         };
       })
       .filter((data): data is YearData => data !== null);
