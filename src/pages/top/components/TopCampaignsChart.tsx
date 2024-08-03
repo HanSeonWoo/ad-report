@@ -14,9 +14,8 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { COLORS } from "@/lib/colors";
-import { MonthlyTopDataType } from "../hooks/useTopData";
 import PeriodeSelector from "../../../components/PeriodeSelector";
+import { MonthlyTopDataType } from "../hooks/useTopData";
 
 export default function TopCampaignsChart({
   data,
@@ -92,10 +91,10 @@ export default function TopCampaignsChart({
                   `${name} ${(percent * 100).toFixed(0)}%`
                 }
               >
-                {currentMonthData.topData.map((entry, index) => (
+                {currentMonthData.topData.map((_, index) => (
                   <Cell
                     key={`cell-${index}`}
-                    fill={COLORS[index % COLORS.length]}
+                    fill={`hsl(var(--chart-${index + 1}))`}
                   />
                 ))}
               </Pie>

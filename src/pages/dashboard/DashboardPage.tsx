@@ -1,9 +1,9 @@
 import { ContentLayout } from "@/components/admin-panel/ContentLayout";
-import MonthDashboard from "@/pages/dashboard/components/MonthDashboard";
 import { Progress } from "@/components/ui/progress";
 import { useGetAllData } from "@/hooks/useGetAllData";
 import { useGetData } from "@/hooks/useGetData";
 import { MONTHS, YEARS } from "@/lib/const";
+import MonthDashboard from "@/pages/dashboard/components/MonthDashboard";
 import { useState } from "react";
 
 // 랜덤 선택 함수
@@ -22,7 +22,7 @@ export default function DashboardPage() {
 
   const [year] = useState(getRandomElement(YEARS));
   const [month] = useState(getRandomElement(MONTHS));
-  const { data, isLoading, isError, progress } = useGetData({
+  const { data, progress } = useGetData({
     search_year: year,
     search_month: month,
   });

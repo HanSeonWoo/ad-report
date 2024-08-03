@@ -41,7 +41,7 @@ export default function MonthPieChart({ data }: Props) {
           <ChartTooltip content={<ChartTooltipContent />} />
 
           <Pie data={pieData} dataKey="Revenue" nameKey="CampaignName">
-            {pieData.map((entry, index) => (
+            {pieData.map((_, index) => (
               <Cell
                 key={`cell-${index}`}
                 fill={`hsl(var(--chart-${index + 1}))`}

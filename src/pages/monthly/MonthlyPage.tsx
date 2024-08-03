@@ -4,14 +4,14 @@ import { RESULT_TYPES } from "@/lib/const";
 import { ResultType } from "@/lib/type";
 import { useState } from "react";
 import MonthlyChart from "./components/MonthlyChart";
-import { useMonthData } from "./hooks/useMonthData";
 import MonthlyTable from "./components/MonthlyTable";
+import { useMonthData } from "./hooks/useMonthData";
 
 export default function MonthlyPage() {
   const [resultType, setResultType] = useState<ResultType>(RESULT_TYPES[0]);
-  const { isError, isLoading, progress, metricsData } = useMonthData();
+  const { isLoading, progress, metricsData } = useMonthData();
   const monthChartDate = Object.entries(metricsData[resultType]).map(
-    ([month, yearData]) => yearData
+    ([_, yearData]) => yearData
   );
 
   return (

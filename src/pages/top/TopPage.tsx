@@ -9,7 +9,7 @@ import { YEARS } from "@/lib/const";
 export default function TopPage() {
   const [year, setYear] = useState(YEARS[YEARS.length - 1]);
   const [month, setMonth] = useState(1);
-  const { monthlyTopData, isError, isLoading, progress } = useTopData({
+  const { monthlyTopData, isLoading, progress } = useTopData({
     search_year: year,
   });
 
