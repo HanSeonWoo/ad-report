@@ -4,7 +4,7 @@
 
 ## 데모
 
-[데모 링크 추가 예정]
+[광고 정산 데이터 리포트 데모](https://ad-report.vercel.app/)
 
 ## 기술 스택
 
@@ -31,14 +31,22 @@ src/
 ├── lib/          # 유틸리티 함수
 ├── pages/        # 페이지 컴포넌트
 │   ├── dashboard/
+│   │   ├── components/
+│   │   └── hooks/
 │   ├── monthly/
+│   │   ├── components/
+│   │   └── hooks/
 │   ├── top/
+│   │   ├── components/
+│   │   └── hooks/
 │   └── yearly/
+│       ├── components/
+│       └── hooks/
 ├── providers/    # React Context Providers
 └── services/     # API 통신 및 데이터 처리 로직
 ```
 
-페이지 폴더 내부에 components, hooks를 추가해 해당 페이지에 쓰는 것들을 모아둠.
+각 페이지 폴더 내부에 `components`와 `hooks`를 추가하여 해당 페이지에서 사용되는 컴포넌트와 훅을 모아두었습니다.
 
 ## 실행 방법
 
@@ -65,22 +73,29 @@ yarn && yarn dev
 
 레포트는 연간, 월간, 그리고 캠페인 성과 데이터로 구분되어 제공됩니다.
 
+### 대시보드
+
+<img src="https://github.com/user-attachments/assets/c7d28ed2-70a4-40c0-913f-5d2252918ced" alt="대시보드" width="600"/>
+
 ### 연간 레포트
 
-- [사진 첨부 예정]
+<img src="https://github.com/user-attachments/assets/c260c9fe-95eb-41d9-b3a4-146d8c278bc7" alt="연도별 성과 레포트" width="600"/>
+
 - 수익, 수수료, 완료 캠페인, 캠페인 당 수익에 대한 연간 데이터 차트 제공
 - 필터링 가능한 데이터 테이블 제공
 
 ### 월간 레포트
 
-- [사진 첨부 예정]
+<img src="https://github.com/user-attachments/assets/63e6918e-79fb-4f05-af94-f86507c9edb4" alt="월별 성과 레포트" width="600"/>
+
 - 선택한 월의 다년간 데이터 비교 기능
 - 수익, 수수료, 완료 캠페인, 캠페인 당 수익에 대한 월간 데이터 차트 제공
 - 필터링 가능한 데이터 테이블 제공
 
 ### 상위 캠페인 레포트
 
-- [사진 첨부 예정]
+<img src="https://github.com/user-attachments/assets/13f33ce2-fce5-4245-852f-324b03a324d2" alt="상위 캠페인 레포트" width="600"/>
+
 - 선택한 월의 상위 5개 캠페인과 기타(others) 카테고리로 구성된 차트 제공
   (총 7개 미만 캠페인의 경우 모든 캠페인 개별 표시)
 - 상세 데이터 테이블 제공

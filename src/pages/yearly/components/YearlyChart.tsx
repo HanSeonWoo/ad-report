@@ -52,7 +52,7 @@ export default function YearlyChart({ data }: { data: YearData[] }) {
       </div>
 
       <CardContent>
-        <ChartContainer config={chartConfig}>
+        <ChartContainer config={chartConfig} className="mx-auto max-h-[500px]">
           <BarChart
             accessibilityLayer
             data={data}

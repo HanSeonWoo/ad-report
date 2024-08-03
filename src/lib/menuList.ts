@@ -38,21 +38,21 @@ export function getMenuList(pathname: string): Group[] {
       menus: [
         {
           href: "/yearly",
-          label: "연도별 성과 분석",
+          label: "연도별 성과 레포트",
           active: pathname.includes("/yearly"),
           icon: SquarePen,
           submenus: [],
         },
         {
           href: "/monthly",
-          label: "월별 성과 분석",
+          label: "월별 성과 레포트",
           active: pathname.includes("/monthly"),
           icon: Bookmark,
           submenus: [],
         },
         {
           href: "/top",
-          label: "상위 캠페인 성과 분석",
+          label: "상위 캠페인 성과 레포트",
           active: pathname.includes("/top"),
           icon: Tag,
           submenus: [],

@@ -66,8 +66,8 @@ export default function MonthlyChart({ data, onSelect, resultType }: Props) {
         </div>
       </div>
 
-      <CardContent>
-        <ChartContainer config={chartConfig}>
+      <CardContent className="">
+        <ChartContainer config={chartConfig} className="mx-auto max-h-[600px]">
           <BarChart accessibilityLayer data={data}>
             <ChartLegend verticalAlign="top" content={<ChartLegendContent />} />
             <CartesianGrid vertical={false} />
