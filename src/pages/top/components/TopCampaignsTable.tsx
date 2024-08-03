@@ -19,6 +19,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { CampaignData, MonthlyTopDataType } from "../hooks/useTopData";
+import { KWRformatter } from "@/lib/formatter";
 
 type TopTableProps = {
   data: MonthlyTopDataType[];
@@ -98,11 +99,7 @@ export default function TopCampaignsTable({ data, month }: TopTableProps) {
       {currentMonthData && (
         <div className="mt-4 text-right">
           <p className="font-semibold">
-            Total Revenue:{" "}
-            {new Intl.NumberFormat("ko-KR", {
-              style: "currency",
-              currency: "KRW",
-            }).format(currentMonthData.totalRevenue)}
+            Total Revenue: {KWRformatter.format(currentMonthData.totalRevenue)}
           </p>
         </div>
       )}
@@ -128,21 +125,21 @@ const columns: ColumnDef<CampaignData>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => {
-      const revenue = parseFloat(row.getValue("revenue"));
-      const formatted = new Intl.NumberFormat("ko-KR", {
-        style: "currency",
-        currency: "KRW",
-      }).format(revenue);
-      return <div className="text-right font-medium">{formatted}</div>;
+    cell: ({ getValue }) => {
+      const value = Number(getValue());
+      return (
+        <div className="text-right font-medium">
+          {KWRformatter.format(value)}
+        </div>
+      );
     },
   },
   {
     accessorKey: "percentage",
     header: "Percentage",
-    cell: ({ row }) => {
-      const percentage = parseFloat(row.getValue("percentage"));
-      return <div className="text-right">{percentage.toFixed(2)}%</div>;
+    cell: ({ getValue }) => {
+      const value = Number(getValue());
+      return <div className="text-right">{value.toFixed(2)}%</div>;
     },
   },
 ];

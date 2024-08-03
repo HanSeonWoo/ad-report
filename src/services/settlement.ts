@@ -1,40 +1,48 @@
 import axios from "axios";
 
-export interface AdSettlementResponse {
-  Payment: {
-    Revenue: number;
-    Commission: number;
-    Complete: number;
-    Monthly: Array<{
-      Status: number;
-      Datetime: string;
-      Revenue: number;
-      Commission: number;
-      Complete: number;
-      AppKey: number;
-      App: Array<{
-        AppName: string;
-        Revenue: number;
-        Commission: number;
-        Complete: number;
-        AppKey: number;
-        Campaign: Array<{
-          CampaignName: string;
-          Datetime: string;
-          Revenue: number;
-          Commission: number;
-          Complete: number;
-          CampaignKey: string;
-          AppKey: number;
-        }>;
-      }>;
-    }>;
-  };
+export type CampaignType = {
+  CampaignName: string;
+  Datetime: string;
+  Revenue: number;
+  Commission: number;
+  Complete: number;
+  CampaignKey: string;
+  AppKey: number;
+};
+
+export type AppType = {
+  AppName: string;
+  Revenue: number;
+  Commission: number;
+  Complete: number;
+  AppKey: number;
+  Campaign: CampaignType[];
+};
+
+export type MonthlyDataType = {
+  Status: number;
+  Datetime: string;
+  Revenue: number;
+  Commission: number;
+  Complete: number;
+  AppKey: number;
+  App: AppType[];
+};
+
+export type PaymentType = {
+  Revenue: number;
+  Commission: number;
+  Complete: number;
+  Monthly: MonthlyDataType[];
+};
+
+export type AdSettlementResponseType = {
+  Payment: PaymentType;
   Result: boolean;
   IsTest: boolean;
   ResultCode: number;
   ResultMsg: string;
-}
+};
 
 export interface AdSettlementParams {
   search_year: number;
@@ -51,9 +59,9 @@ const api = axios.create({
 // API 호출 함수
 export const fetchAdSettlementData = async (
   params: AdSettlementParams
-): Promise<AdSettlementResponse> => {
+): Promise<AdSettlementResponseType> => {
   try {
-    const response = await api.post<AdSettlementResponse>(
+    const response = await api.post<AdSettlementResponseType>(
       "/GetDemoData",
       params
     );
@@ -73,7 +81,7 @@ export const fetchAdSettlementData = async (
 };
 
 // 데이터 변환 함수
-export const transformApiResponse = (data: AdSettlementResponse) => {
+export const transformApiResponse = (data: AdSettlementResponseType) => {
   return {
     ...data,
     Payment: {

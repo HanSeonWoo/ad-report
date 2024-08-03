@@ -41,7 +41,7 @@ export default function TopCampaignsChart({
     (acc, item, index) => {
       acc[item.name] = {
         label: item.name,
-        color: COLORS[index % COLORS.length],
+        color: `hsl(var(--chart-${index + 1}))`,
       };
       return acc;
     },
