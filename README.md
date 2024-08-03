@@ -86,7 +86,7 @@ yarn && yarn dev
 
 ### 월간 레포트
 
-<img src="https://github.com/user-attachments/assets/63e6918e-79fb-4f05-af94-f86507c9edb4" alt="월별 성과 레포트" width="600"/>
+<img src="https://github.com/user-attachments/assets/f20aebe3-8353-46ae-b98d-6e3fbd2ec728" alt="월별 성과 레포트" width="600"/>
 
 - 선택한 월의 다년간 데이터 비교 기능
 - 수익, 수수료, 완료 캠페인, 캠페인 당 수익에 대한 월간 데이터 차트 제공
@@ -94,7 +94,7 @@ yarn && yarn dev
 
 ### 상위 캠페인 레포트
 
-<img src="https://github.com/user-attachments/assets/13f33ce2-fce5-4245-852f-324b03a324d2" alt="상위 캠페인 레포트" width="600"/>
+<img src="https://github.com/user-attachments/assets/9cf00bfc-2d71-4412-8d6b-572f6fb433fc" alt="상위 캠페인 레포트" width="600"/>
 
 - 선택한 월의 상위 5개 캠페인과 기타(others) 카테고리로 구성된 차트 제공
   (총 7개 미만 캠페인의 경우 모든 캠페인 개별 표시)
