@@ -127,7 +127,7 @@ export function YearlyTable({ data }: { data: YearData[] }) {
   );
 }
 
-const getLabel = (key: YearDataKeys): string => {
+export const getLabel = (key: YearDataKeys): string => {
   switch (key) {
     case "year":
       return "연도";

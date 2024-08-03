@@ -3,7 +3,7 @@ import Layout from "./components/Layout";
 import DashboardPage from "./pages/DashboardPage";
 import YearlyPage from "./pages/YearlyPage";
 import ReactQueryProvider from "./providers/ReactQueryProvider";
-import MonthlyPage from "./pages/MonthlyPage";
+import MonthlyPage from "./pages/monthly/MonthlyPage";
 
 function App() {
   return (

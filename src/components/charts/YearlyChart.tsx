@@ -14,6 +14,16 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { YearData } from "@/pages/YearlyPage";
+import { ChevronDownIcon } from "lucide-react";
+import { useState } from "react";
+import { getLabel } from "../tables/YearlyTable";
+import { Button } from "../ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 
 const chartConfig = {
   Revenue: {
@@ -30,19 +40,49 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
+type ChartType = keyof typeof chartConfig;
+const CHART_KEYS = Object.keys(chartConfig) as ChartType[];
+
 export default function YearlyChart({ data }: { data: YearData[] }) {
+  const [chartKey, setChartKey] = useState<ChartType>("Revenue");
   if (!data) {
     return null;
   }
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>연도별 총수익</CardTitle>
-        <CardDescription>
-          {data[0].year} - {data.at(-1)?.year}
-        </CardDescription>
-      </CardHeader>
+      <div className="px-4 flex flex-row justify-between items-center">
+        <CardHeader>
+          <CardTitle>연도별 {getLabel(chartKey)}</CardTitle>
+          <CardDescription>
+            {data[0].year} - {data.at(-1)?.year}
+          </CardDescription>
+        </CardHeader>
+        <div className="p-4">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="ml-auto">
+                {getLabel(chartKey)}{" "}
+                <ChevronDownIcon className="ml-2 h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {CHART_KEYS.map((ck) => {
+                return (
+                  <DropdownMenuItem
+                    key={ck}
+                    className="capitalize"
+                    onSelect={() => setChartKey(ck)}
+                  >
+                    {getLabel(ck)}
+                  </DropdownMenuItem>
+                );
+              })}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      </div>
+
       <CardContent>
         <ChartContainer config={chartConfig}>
           <BarChart
@@ -67,7 +107,11 @@ export default function YearlyChart({ data }: { data: YearData[] }) {
               content={<ChartTooltipContent indicator="line" />}
             />
 
-            <Bar dataKey="Revenue" fill="var(--color-Revenue)" radius={4}></Bar>
+            <Bar
+              dataKey={chartKey}
+              fill={`var(--color-${chartKey})`}
+              radius={4}
+            ></Bar>
           </BarChart>
         </ChartContainer>
       </CardContent>
