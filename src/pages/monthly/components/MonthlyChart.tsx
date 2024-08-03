@@ -40,7 +40,7 @@ export default function MonthlyChart({ data, onSelect, resultType }: Props) {
         <CardHeader>
           <CardTitle>월별 {getLabel(resultType)}</CardTitle>
         </CardHeader>
-        <div className="p-4 space-x-4">
+        <div className="p-4 flex flex-col space-y-2 sm:flex-row sm:space-x-2 sm:space-y-0">
           <ResultTypeSelector resultType={resultType} onSelect={onSelect} />
 
           <DropdownMenu>
@@ -79,7 +79,9 @@ export default function MonthlyChart({ data, onSelect, resultType }: Props) {
             />
             <ChartTooltip
               cursor={false}
-              content={<ChartTooltipContent indicator="dashed" />}
+              content={
+                <ChartTooltipContent labelKey="month" indicator="dashed" />
+              }
             />
             {sortedSelectedYears.map((year) => (
               <Bar

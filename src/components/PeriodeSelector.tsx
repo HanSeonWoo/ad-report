@@ -21,12 +21,12 @@ export default function PeriodeSelector({
   setMonth,
 }: Props) {
   return (
-    <div className="flex flex-row space-x-2">
+    <div className="flex flex-col space-y-2 sm:flex-row sm:space-x-2 sm:space-y-0">
       <Select
         value={year.toString()}
         onValueChange={(value) => setYear(Number(value))}
       >
-        <SelectTrigger className="w-[140px]">
+        <SelectTrigger className="w-32">
           <SelectValue placeholder="Select year" />
         </SelectTrigger>
         <SelectContent>
@@ -42,7 +42,7 @@ export default function PeriodeSelector({
           value={month.toString()}
           onValueChange={(value) => setMonth(Number(value))}
         >
-          <SelectTrigger className="w-[140px]">
+          <SelectTrigger className="w-32">
             <SelectValue placeholder="Select month" />
           </SelectTrigger>
           <SelectContent>
