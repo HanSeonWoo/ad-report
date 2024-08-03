@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from "./components/Layout";
-import DashboardPage from "./pages/DashboardPage";
+import DashboardPage from "./pages/dashboard/DashboardPage";
 import YearlyPage from "./pages/yearly/YearlyPage";
 import ReactQueryProvider from "./providers/ReactQueryProvider";
 import MonthlyPage from "./pages/monthly/MonthlyPage";

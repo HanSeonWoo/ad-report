@@ -1,5 +1,5 @@
 import { ContentLayout } from "@/components/admin-panel/ContentLayout";
-import MonthDashboard from "@/components/MonthDashboard";
+import MonthDashboard from "@/pages/dashboard/components/MonthDashboard";
 import { Progress } from "@/components/ui/progress";
 import { useGetAllData } from "@/hooks/useGetAllData";
 import { useGetData } from "@/hooks/useGetData";
@@ -26,7 +26,6 @@ export default function DashboardPage() {
     search_year: year,
     search_month: month,
   });
-  console.log("🚀 ~ DashboardPage ~ data:", data);
   return (
     <ContentLayout title="대시보드">
       {!data ? (
